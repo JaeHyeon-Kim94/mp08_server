@@ -34,6 +34,13 @@ public class UserRestController {
 	private UserService userService;
 	//setter Method 구현 않음
 		
+	
+	@Value("#{commonProperties['pageUnit']}")
+	int pageUnit;
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
+	
+	
 	public UserRestController(){
 		System.out.println(this.getClass());
 	}
@@ -61,5 +68,46 @@ public class UserRestController {
 		}
 		
 		return dbUser;
+	}
+	
+	@RequestMapping(value="json/addUser", method=RequestMethod.GET)
+	public String addUser() throws Exception{	
+		
+		System.out.println("/user/json/addUser : GET(Navigation)");
+		return "forward:/user/json/addUser";
+		
+	}
+	
+	@RequestMapping(value="json/addUser", method=RequestMethod.POST)
+	public User addUser(@RequestBody User user) throws Exception{	
+		
+		System.out.println("/user/json/addUser : POST");
+		
+		userService.addUser(user);
+		
+		
+		return user;
+	}
+	
+	
+	@RequestMapping( value="json/listUser" )
+	public Map listUser( @RequestBody Search search , HttpServletRequest request) throws Exception{
+		
+		System.out.println("/user/json/listUser : POST");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		// Business logic 수행
+		Map<String , Object> map=userService.getUserList(search);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		// Model 과 View 연결
+
+		return map;
 	}
 }
