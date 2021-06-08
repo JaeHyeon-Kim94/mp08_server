@@ -40,7 +40,7 @@ public class UserServiceTest {
 	@Qualifier("userServiceImpl")
 	private UserService userService;
 
-	@Test
+	//@Test
 	public void testAddUser() throws Exception {
 		
 		User user = new User();
@@ -101,13 +101,13 @@ public class UserServiceTest {
 	//@Test
 	 public void testUpdateUser() throws Exception{
 		 
-		User user = userService.getUser("testUserId");
+		User user = userService.getUser("jsonTest");
 		Assert.assertNotNull(user);
 		
-		Assert.assertEquals("testUserName", user.getUserName());
-		Assert.assertEquals("111-2222-3333", user.getPhone());
-		Assert.assertEquals("경기도", user.getAddr());
-		Assert.assertEquals("test@test.com", user.getEmail());
+//		Assert.assertEquals("testUserName", user.getUserName());
+//		Assert.assertEquals("111-2222-3333", user.getPhone());
+//		Assert.assertEquals("경기도", user.getAddr());
+//		Assert.assertEquals("test@test.com", user.getEmail());
 
 		user.setUserName("change");
 		user.setPhone("777-7777-7777");
@@ -116,7 +116,7 @@ public class UserServiceTest {
 		
 		userService.updateUser(user);
 		
-		user = userService.getUser("testUserId");
+		user = userService.getUser("jsonTest");
 		Assert.assertNotNull(user);
 		
 		//==> console 확인

@@ -90,6 +90,27 @@ public class UserRestController {
 	}
 	
 	
+	@RequestMapping(value = "json/updateUser/{userId}", method=RequestMethod.GET)
+	public User updateUser(@PathVariable String userId) throws Exception{
+		
+		System.out.println("/user/json/updateUser : GET");
+				
+		return userService.getUser(userId);
+	}
+	
+	@RequestMapping(value = "json/updateUser", method=RequestMethod.POST)
+	public User updateUser(@RequestBody User user) throws Exception{
+		
+		System.out.println("/user/json/updateUser : POST");
+		System.out.println(user);
+		userService.updateUser(user);
+		System.out.println("update Complete");
+
+		return user;
+	}
+	
+	
+	
 	@RequestMapping( value="json/listUser" )
 	public Map listUser( @RequestBody Search search , HttpServletRequest request) throws Exception{
 		
